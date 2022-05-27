@@ -1,3 +1,6 @@
+##########################################################
+# AUTHOR: Daniel Moretti Valdivia  | github.com/DrSh4dow #
+##########################################################
 # se importa la libreria os para identificar el sistema operativo
 # y ejecutar comandos de limpieza
 import os

@@ -1,5 +1,9 @@
+##########################################################
+# AUTHOR: Daniel Moretti Valdivia  | github.com/DrSh4dow #
+##########################################################
 import utility
 import getpass
+import re
 
 
 def input_nombre_jugador(numero_jugador):
@@ -51,3 +55,31 @@ def input_cantidad_intentos():
             print(utility.bcolors.FAIL +
                   "Debe ingresar solo numeros!"+utility.bcolors.ENDC)
     return cantidad_intentos
+
+
+def input_palabra_adivinar(nombre_proponedor):
+    palabra = ""
+    print(utility.bcolors.OKBLUE + "Ahora juega Proponedor: " +
+          nombre_proponedor + utility.bcolors.ENDC)
+    print(utility.bcolors.BOLD + utility.bcolors.WARNING +
+          "\n\n[ ADVERTENCIA ]\nLa palabra no aparecera en pantalla mientras la escribe\nasi que digite teniendo eso en cuenta y que solo podra \ningresar caracteres pertenencientes al alfabeto español"+utility.bcolors.ENDC)
+    while True:
+        palabra = getpass.getpass(
+            utility.bcolors.OKGREEN+"Palabra: "+utility.bcolors.ENDC).lower().strip()
+
+        if palabra == "":
+            print(utility.bcolors.FAIL +
+                  "La palabra no puede estar vacia!"+utility.bcolors.ENDC)
+            continue
+        elif len(palabra) > 20:
+            print(utility.bcolors.FAIL +
+                  "La palabra no se mayor a 20 caracteres de largo!"+utility.bcolors.ENDC)
+            continue
+        elif not re.match('^[a-zñ]+$', palabra):
+            print(utility.bcolors.FAIL +
+                  "La palabra debe pertenecer al alfabeto español!"+utility.bcolors.ENDC)
+            continue
+        else:
+            break
+
+    return palabra
