@@ -4,7 +4,9 @@
 #                 ARCHIVO PRINCIPAL                      #
 #                                                        #
 ##########################################################
-# Importe de Modulos y librerias necesarias
+# Importe de Modulos
+# utility para imprimir colores y detalles graficos
+# corelogic contiene la logica principal de la aplicacion
 import utility
 import corelogic
 
@@ -28,35 +30,37 @@ cantidad_intentos = corelogic.input_cantidad_intentos()
 
 # Se presentan la configuracion ingresada
 utility.clear_screen()
-print(utility.bcolors.HEADER + utility.bcolors.BOLD +
-      "-------------------------------------------")
-print("-        Configuracion Seleccionada       -")
-print("-------------------------------------------\n" + utility.bcolors.ENDC)
-
-print(utility.bcolors.OKBLUE + "Jugador 1: " +
-      jugador1_nombre + utility.bcolors.ENDC)
-print(utility.bcolors.OKBLUE + "Jugador 2: " +
-      jugador2_nombre + utility.bcolors.ENDC)
-print(utility.bcolors.OKBLUE + "Numero de Palabras por Jugador: " +
-      str(cantidad_palabras) + utility.bcolors.ENDC)
-print(utility.bcolors.OKBLUE + "Intentos por Palabra: " +
-      str(cantidad_intentos) + utility.bcolors.ENDC+"\n")
-
-print(utility.bcolors.WARNING+"Iniciando Partida"+utility.bcolors.ENDC)
+utility.print_configuracion(
+    jugador1_nombre, jugador2_nombre, cantidad_palabras, cantidad_intentos)
 utility.loading_dots(1.4)
 utility.clear_screen()
 
 # Inicia el juego tomando la forma de un loop de tantas rondas como el doble de palabras por cada jugador
 for numero_ronda in range(cantidad_palabras*2):
     numero_ronda = numero_ronda+1
-    utility.clear_screen()
-    print(utility.bcolors.HEADER + utility.bcolors.BOLD +
-          "-------------------------------------------")
-    print("-            Ronda Numero "+str(numero_ronda) +
-          "               -")
-    print("-------------------------------------------\n" + utility.bcolors.ENDC)
-    palabra = ""
+    adivinador = ""
+    proponedor = ""
+    utility.clean_print_ronda(numero_ronda)
+    # Se calcula quien es el proponedor y adivinador
     if numero_ronda % 2 == 0:
-        palabra = corelogic.input_palabra_adivinar(jugador1_nombre)
+        proponedor = jugador1_nombre
+        adivinador = jugador2_nombre
     else:
-        palabra = corelogic.input_palabra_adivinar(jugador2_nombre)
+        proponedor = jugador2_nombre
+        adivinador = jugador1_nombre
+
+    # La logica especifica esta contenida en el modulo corelogic
+    palabra = corelogic.input_palabra_adivinar(proponedor)
+
+    # CASO ESPECIAL: Victoria por abandono. En caso de que el jugador proponedor no logre
+    # poner una palabra valida dentro de 3 intentos, se considera victoria por abandono
+    if palabra == "":
+        utility.clear_screen()
+        # Se calcula quien fue el proponedor y el jugador adivinador de la ronda
+        print(utility.bcolors.BOLD + utility.bcolors.WARNING +
+              "\n\n[ VICTORIA POR ABANDONO ]\nEl jugador proponedor ("+proponedor+") no ha propuesto ninguna palabra valida por \nmas de 3 intentos, por este motivo automaticamente\nse ha considerado ganador al jugador: "+utility.bcolors.ENDC+utility.bcolors.HEADER+adivinador+utility.bcolors.ENDC)
+        print("\n\n")
+        quit()
+
+    puntaje_ronda = corelogic.adivinar(
+        palabra, adivinador, cantidad_intentos, numero_ronda)
