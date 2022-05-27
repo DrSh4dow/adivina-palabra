@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ##########################################################
 # AUTHOR: Daniel Moretti Valdivia  | github.com/DrSh4dow #
 #                                                        #
