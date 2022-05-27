@@ -22,6 +22,9 @@ print("-------------------------------------------\n\n" + utility.bcolors.ENDC)
 jugador1_nombre = corelogic.input_nombre_jugador("1")
 jugador2_nombre = corelogic.input_nombre_jugador("2")
 
+# Se inicializan los puntajes de cada jugador:
+jugador1_puntaje = 0
+jugador2_puntaje = 0
 
 # Se le pregunta a los jugadores la cantidad de palabras que deben adivinar
 cantidad_palabras = corelogic.input_cantidad_palabras()
@@ -63,5 +66,39 @@ for numero_ronda in range(cantidad_palabras*2):
         print("\n\n")
         quit()
 
+    # Se inicia el turno del adivinador
     puntaje_ronda = corelogic.adivinar(
         palabra, adivinador, cantidad_intentos, numero_ronda)
+
+    if numero_ronda % 2 == 0:
+        jugador2_puntaje += puntaje_ronda
+    else:
+        jugador1_puntaje += puntaje_ronda
+
+utility.clear_screen()
+print(utility.bcolors.HEADER + utility.bcolors.BOLD +
+      "-------------------------------------------")
+print("-         El Juego Ha Finalizado!!        -")
+print("-------------------------------------------\n\n" + utility.bcolors.ENDC)
+
+# se inicializa la variable ganador
+ganador = ""
+# Se verifica si hubo un empate
+if jugador1_puntaje == jugador2_puntaje:
+    print(utility.bcolors.BOLD + utility.bcolors.OKCYAN + "Ambos jugadores obtuvieron el mismo puntaje de "+str(round(jugador1_puntaje, 2))+", por lo que ambos ganaron!!!\n" +
+          utility.bcolors.ENDC + utility.bcolors.BOLD+"(o tal vez ambos perdieron...)"+utility.bcolors.ENDC)
+    exit()
+elif jugador1_puntaje > jugador2_puntaje:
+    ganador = jugador1_nombre
+else:
+    ganador = jugador2_nombre
+
+print(utility.bcolors.UNDERLINE+utility.bcolors.BOLD +
+      "RESULTADOS: "+utility.bcolors.ENDC)
+print("El jugador "+jugador1_nombre+" obtuvo " +
+      str(round(jugador1_puntaje, 2))+" puntos.")
+print("El jugador "+jugador2_nombre+" obtuvo " +
+      str(round(jugador2_puntaje, 2))+" puntos.")
+
+print("\n\n" + utility.bcolors.HEADER + utility.bcolors.BOLD +
+      "EL GANADOR ES " + ganador + "!!!\n\n"+utility.bcolors.ENDC)
