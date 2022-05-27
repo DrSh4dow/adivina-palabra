@@ -4,44 +4,42 @@
 # Importe de Modulos y librerias necesarias
 import sanitizer
 import utility
+import corelogic
 
-utility.clear_screen()
 # Dar la bienvenida al juego
+utility.clear_screen()
 print(utility.bcolors.HEADER + utility.bcolors.BOLD +
       "-------------------------------------------")
 print("-    Bienvenidos a Adivina Palabra!!      -")
 print("-------------------------------------------\n\n" + utility.bcolors.ENDC)
 
-# Preguntar por los nombres de los jugadores en un
-# loop de manera que puedan confirmar su seleccion
-jugador1_nombre = ""
-jugador2_nombre = ""
+# Preguntar por los nombres de los jugadores
+jugador1_nombre = corelogic.input_nombre_jugador("1")
+jugador2_nombre = corelogic.input_nombre_jugador("2")
 
-while True:
-    jugador1_nombre = input(
-        utility.bcolors.OKGREEN+"Ingrese el nombre del jugador numero 1: "+utility.bcolors.ENDC)
-    if jugador1_nombre == "":
-        print(utility.bcolors.FAIL +
-              "El nombre del jugador no puede estar vacio!"+utility.bcolors.ENDC)
-        continue
-    print(utility.bcolors.OKBLUE + "Jugador 1: " +
-          jugador1_nombre + utility.bcolors.ENDC)
-    utility.loading_dots()
 
-    utility.clear_screen()
-    break
+# Se le pregunta a los jugadores la cantidad de palabras que deben adivinar
+cantidad_palabras = corelogic.input_cantidad_palabras()
 
-while True:
-    jugador2_nombre = input(
-        utility.bcolors.OKGREEN+"Ingrese el nombre del jugador numero 2: "+utility.bcolors.ENDC)
-    if jugador2_nombre == "":
-        print(utility.bcolors.FAIL +
-              "El nombre del jugador no puede estar vacio!"+utility.bcolors.ENDC)
-        continue
-    print(utility.bcolors.OKBLUE + "Jugador 2: " +
-          jugador2_nombre + utility.bcolors.ENDC)
+# Se pregunta por la cantidad maxima de intentos para adivinar cada palabra
+cantidad_intentos = corelogic.input_cantidad_intentos()
 
-    utility.loading_dots()
+# Se presentan la configuracion ingresada
+utility.clear_screen()
+print(utility.bcolors.HEADER + utility.bcolors.BOLD +
+      "-------------------------------------------")
+print("-        Configuracion Seleccionada       -")
+print("-------------------------------------------\n" + utility.bcolors.ENDC)
 
-    utility.clear_screen()
-    break
+print(utility.bcolors.OKBLUE + "Jugador 1: " +
+      jugador1_nombre + utility.bcolors.ENDC)
+print(utility.bcolors.OKBLUE + "Jugador 2: " +
+      jugador2_nombre + utility.bcolors.ENDC)
+print(utility.bcolors.OKBLUE + "Numero de Palabras: " +
+      str(cantidad_palabras) + utility.bcolors.ENDC)
+print(utility.bcolors.OKBLUE + "Intentos por Palabra: " +
+      str(cantidad_intentos) + utility.bcolors.ENDC+"\n")
+
+print(utility.bcolors.WARNING+"Iniciando Partida"+utility.bcolors.ENDC)
+utility.loading_dots(1.4)
+utility.clear_screen()

@@ -5,26 +5,25 @@ import sys
 from time import sleep
 
 
-# Funcion de utilidad para limpiar la pantalla
 def clear_screen():
+    # Funcion de utilidad para limpiar la pantalla
     if (os.name == 'posix'):
         os.system('clear')
     else:
         os.system('cls')
 
-# Funcion que crea la ilusion de movimiento en puntitos
-
 
 def loading_dots(time_per_dot=0.75):
+    # Funcion que crea la ilusion de movimiento en puntitos
     for _ in range(3):
+        sleep(time_per_dot/2)
         sys.stdout.write(bcolors.BOLD+"."+bcolors.ENDC)
         sys.stdout.flush()
-        sleep(time_per_dot)
-
-# Clase para dar colores a los textos en python
+        sleep(time_per_dot/2)
 
 
 class bcolors:
+    # Clase para dar colores a los textos en python
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
